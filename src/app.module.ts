@@ -15,7 +15,8 @@ import { AppController } from './app.controller';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }), // ✅ importante
+
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -40,9 +41,7 @@ import { AppController } from './app.controller';
     ProductosModule,
     OrdenesModule,
   ],
-
   controllers: [AppController],
   providers: [AppService],
-
 })
 export class AppModule {}
