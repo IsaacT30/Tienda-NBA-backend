@@ -32,4 +32,4 @@ jobs:
           echo "$${{ secrets.ENV_FILE }}" > .env
           npm install
           npm run build
-          pm2 restart tienda_nba_app-api || pm2 start dist/main.js --name tienda_nba_app
+          pm2 restart tienda_nba_app || pm2 start dist/main.js --name tienda_nba_app
