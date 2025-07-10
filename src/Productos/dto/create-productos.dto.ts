@@ -9,4 +9,7 @@ export class CreateProductoDto {
 
   @IsString()
   descripcion: string;
+
+  @IsString()
+  categoria: string; // Nueva propiedad para la categoría
 }

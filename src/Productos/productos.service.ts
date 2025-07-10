@@ -21,8 +21,11 @@ export class ProductosService {
     return this.productoRepository.save(producto);
   }
 
-  async findAll(options) {
+  async findAll(options, categoria?: string) {
     const queryBuilder = this.productoRepository.createQueryBuilder('producto');
+    if (categoria) {
+      queryBuilder.andWhere('producto.categoria = :categoria', { categoria });
+    }
     return paginate(queryBuilder, options);
   }
 
