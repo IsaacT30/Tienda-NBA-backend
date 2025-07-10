@@ -38,21 +38,21 @@ export class UsersController {
 
     @Get(':id')
     async findOne(@Param('id') id: string) {
-      const user = await this.usersService.findOne(id);
+      const user = await this.usersService.findOne(+id);
       return new SuccessResponseDto('User retrieved', user);
     }
 
 
     @Put(':id')
     async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        const user = await this.usersService.findOne(id);
+        const user = await this.usersService.findOne(+id);
         return new SuccessResponseDto('User retrieved', user);
     }
 
     @Delete(':id')
     async remove(@Param('id') id: string) {
-        const user = await this.usersService.findOne(id);
-        return this.usersService.remove(id);
+        const user = await this.usersService.findOne(+id);
+        return this.usersService.remove(+id);
         
     }
 
@@ -78,7 +78,7 @@ export class UsersController {
       @UploadedFile() file: Express.Multer.File,
     ) {
       if (!file) throw new BadRequestException('Profile image is required');
-      const user = await this.usersService.updateProfile(id, file.filename);
+      const user = await this.usersService.updateProfile(+id, file.filename);
       return new SuccessResponseDto('Profile image updated', user);
     }
 

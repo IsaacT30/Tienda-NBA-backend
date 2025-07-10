@@ -1,8 +1,8 @@
-import { IsArray, IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateOrdenDto {
-  @IsUUID()
-  userId: string;
+  @IsNumber()
+  userId: number;
 
   @IsArray()
   items: Array<{ articuloId: string; cantidad: number }>;

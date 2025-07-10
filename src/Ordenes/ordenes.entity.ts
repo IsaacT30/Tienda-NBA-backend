@@ -19,6 +19,6 @@ export class Orden {
   total: number;
 
   @Column()
-  userId: string;
+  userId: number;
   
 }
