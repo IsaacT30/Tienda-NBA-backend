@@ -8,6 +8,22 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  // Configuración CORS
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://localhost:4200',
+      'https://tienda-nba-frontend.vercel.app',
+      'https://your-frontend-domain.com',
+      'https://actours.com.pe/nbaecommerce/',
+      'https://actours.com.pe'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true,
+  });
+
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
   app.useGlobalFilters(new GlobalHttpExceptionFilter());
 
@@ -16,5 +32,6 @@ async function bootstrap() {
   const port = process.env.PORT || 3026;
   await app.listen(port);
   console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`CORS enabled for frontend origins`);
 }
 bootstrap();

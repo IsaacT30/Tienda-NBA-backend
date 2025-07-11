@@ -14,7 +14,7 @@ export class PostsController {
         return this.postsService.create(createPostDto);
     }
 
-    @Get()
+  @Get()
   findAll(
     @Query('page') page = 1,
     @Query('limit') limit = 10,
