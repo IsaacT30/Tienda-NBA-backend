@@ -15,8 +15,6 @@ async function bootstrap() {
       'http://localhost:5173',
       'http://localhost:4200',
       'https://tienda-nba-frontend.vercel.app',
-      'https://your-frontend-domain.com',
-      'https://actours.com.pe/nbaecommerce/',
       'https://actours.com.pe'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
