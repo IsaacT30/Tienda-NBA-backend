@@ -29,13 +29,16 @@ jobs:
         key: ${{ secrets.VPS_KEY }}
         script: |
           cd /root/torres_isaac/Tienda-NBA-backend
-          # Matar el proceso que está usando el puerto 3000
-          echo "Matar proceso en el puerto 3000..."
-          sudo lsof -t -i:3000 | xargs sudo kill -9  # Mata el proceso que usa el puerto 3000
+          # Matar el proceso que está usando el puerto 3026
+          echo "Matar proceso en el puerto 3026..."
+          sudo lsof -t -i:3026 | xargs sudo kill -9  # Mata el proceso que usa el puerto 3026
          
           # Asegúrate de que el archivo .env se copie correctamente
           echo -e "${{ secrets.ENV_FILE }}" > .env
 
           npm install
           npm run build
-          pm2 restart Tienda_nba_app || pm2 start dist/main.js --name Tienda_nba_app
+           # Reiniciar PM2 con el nuevo código
+          pm2 stop tienda_nba_app || true  # Detener el proceso si está en ejecución
+          pm2 delete tienda_nba_app || true  # Eliminar el proceso si ya está activo
+          pm2 start dist/main.js --name tienda_nba_app  # Iniciar el proceso desde el archivo compilado
