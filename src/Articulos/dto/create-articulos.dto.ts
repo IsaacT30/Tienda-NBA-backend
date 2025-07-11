@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsUUID } from 'class-validator';
+import { IsString, IsNumber, IsUUID, IsOptional } from 'class-validator';
 
 export class CreateArticuloDto {
   @IsString()
@@ -11,8 +11,10 @@ export class CreateArticuloDto {
   descripcion: string;
 
   @IsUUID()
-  categoriaId: string;
+  @IsOptional()
+  categoriaId?: string;
 
   @IsUUID()
-  marcaId: string;
+  @IsOptional()
+  marcaId?: string;
 }

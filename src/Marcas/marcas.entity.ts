@@ -7,7 +7,7 @@ export class Marcas {
   id: string;
 
   @Column()
-  name: string;
+  nombre: string;
 
   @OneToMany(() => Articulo, articulo => articulo.marcas)
   articulos: Articulo[];

@@ -15,9 +15,6 @@ export class Producto {
   @Column()
   descripcion: string;
 
-  @Column()
-  categoria: string; // Nueva propiedad para la categoría
-
   @ManyToOne(() => Marcas, marcas => marcas.articulos)
   marca: Marcas;
 }

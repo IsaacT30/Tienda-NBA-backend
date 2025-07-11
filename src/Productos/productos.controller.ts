@@ -18,10 +18,9 @@ export class ProductosController {
   findAll(
     @Query('page') page = 1,
     @Query('limit') limit = 10,
-    @Query('categoria') categoria?: string, // Nuevo parámetro para filtrar por categoría
   ) {
     limit = limit > 100 ? 100 : limit;
-    return this.productosService.findAll({ page, limit }, categoria);
+    return this.productosService.findAll({ page, limit });
   }
 
   @Get(':id')

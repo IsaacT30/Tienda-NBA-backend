@@ -17,13 +17,13 @@ export class AuthService {
     if (!user || !(await bcrypt.compare(loginDto.password, user.password))) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
-    const payload = { id: user.id, email: user.username };
+    const payload = { id: user.id, email: user.email };
     return { access_token: this.jwtService.sign(payload) };
   }
 
   async register(createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
-    const payload = { id: user.id, email: user.username };
+    const payload = { id: user.id, email: user.email };
     return { access_token: this.jwtService.sign(payload) };
   }
 }

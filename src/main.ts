@@ -12,7 +12,7 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalHttpExceptionFilter());
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
-
+  
   const port = process.env.PORT || 3026;
   await app.listen(port);
   console.log(`Application is running on: http://localhost:${port}`);

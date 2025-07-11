@@ -1,14 +1,19 @@
-import { IsString, IsUUID } from 'class-validator';
+import { IsString, IsUUID, IsOptional } from 'class-validator';
 
-    export class CreatePostDto {
+export class CreatePostDto {
     @IsString()
     title: string;
 
     @IsString()
     content: string;
 
+    @IsString()
+    @IsOptional()
+    author?: string;
+
     @IsUUID()
-    categoryId: string;
+    @IsOptional()
+    categoryId?: string;
 }
 
 
