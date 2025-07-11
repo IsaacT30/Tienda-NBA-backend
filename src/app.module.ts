@@ -25,7 +25,7 @@ import { AppController } from './app.controller';
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // ⚠️ TEMPORALMENTE true para crear tablas
+      synchronize: false, // 
       ssl: {
         rejectUnauthorized: false,
       },
