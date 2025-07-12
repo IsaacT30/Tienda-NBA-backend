@@ -1,15 +1,21 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { MarcasService } from './marcas.service';
 import { CreateMarcasDto } from './dto/create-marcas.dto';
 import { UpdateMarcasDto } from './dto/update-marcas.dto'; // <-- Cambia aquí
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Marcas } from './marcas.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../decorators/roles.decorator';
+import { UserRole } from '../users/enums/user-role.enum';
 
 @Controller('marcas')
 export class MarcasController {    
   constructor(private readonly marcasService: MarcasService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   create(@Body() createMarcaDto: CreateMarcasDto) {
     return this.marcasService.create(createMarcaDto);
   }
@@ -29,6 +35,8 @@ export class MarcasController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   update(@Param('id') id: string, @Body() updateMarcaDto: UpdateMarcasDto) { // <-- Cambia aquí
     return this.marcasService.update(id, updateMarcaDto);
   }

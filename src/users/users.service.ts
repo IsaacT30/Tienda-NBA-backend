@@ -4,6 +4,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRole } from './enums/user-role.enum';
 import * as bcrypt from 'bcrypt';
 import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 
@@ -63,4 +64,9 @@ export class UsersService {
   return this.userRepository.save(user);
 }
 
+  async findAdminUser() {
+    return this.userRepository.findOne({ 
+      where: { role: UserRole.ADMIN } 
+    });
+  }
 }

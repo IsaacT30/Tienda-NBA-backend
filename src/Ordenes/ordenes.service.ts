@@ -1,9 +1,10 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Orden } from './ordenes.entity';
 import { CreateOrdenDto } from './dto/create-ordenes.dto';
 import { UpdateOrdenDto } from './dto/update-ordenes.dto';
+import { UserRole } from '../users/enums/user-role.enum';
 import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
@@ -34,10 +35,35 @@ export class OrdenesService {
     }
   }
 
-  async findOne(id: string) {
+  async findByUserId(userId: number, options: IPaginationOptions): Promise<Pagination<Orden>> {
     try {
-      return await this.ordenRepository.findOne({ where: { id } });
+      const queryBuilder = this.ordenRepository
+        .createQueryBuilder('orden')
+        .where('orden.userId = :userId', { userId });
+      return await paginate<Orden>(queryBuilder, options);
     } catch (error) {
+      console.error(`Error obteniendo órdenes del usuario ${userId}:`, error);
+      throw new InternalServerErrorException('Error interno al obtener órdenes del usuario');
+    }
+  }
+
+  async findOne(id: string, user?: any) {
+    try {
+      const orden = await this.ordenRepository.findOne({ where: { id } });
+      if (!orden) {
+        throw new NotFoundException('Orden no encontrada');
+      }
+
+      // Si el usuario no es admin, solo puede ver sus propias órdenes
+      if (user && user.role !== UserRole.ADMIN && orden.userId !== user.userId) {
+        throw new ForbiddenException('No tienes permisos para ver esta orden');
+      }
+
+      return orden;
+    } catch (error) {
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) {
+        throw error;
+      }
       console.error(`Error buscando orden con id ${id}:`, error);
       throw new InternalServerErrorException('Error interno al buscar orden');
     }

@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:3000',
-      'http://localhost:5173',
+      'http://localhost:5174',
       'http://localhost:4200',
       'https://tienda-nba-frontend.vercel.app',
       'https://actours.com.pe'
