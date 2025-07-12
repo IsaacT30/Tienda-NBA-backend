@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
@@ -12,11 +13,13 @@ import { ArticulosModule } from './Articulos/articulos.module';
 import { OrdenesModule } from './Ordenes/ordenes.module'; 
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
+import { EnviosModule } from './envios/envios.module';
+import { PagosModule } from './pagos/pagos.modulel';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // ✅ importante
-
+    MongooseModule.forRoot(process.env.MONGO_URI || ''),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -40,6 +43,8 @@ import { AppController } from './app.controller';
     ArticulosModule,
     ProductosModule,
     OrdenesModule,
+    EnviosModule,
+    PagosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
