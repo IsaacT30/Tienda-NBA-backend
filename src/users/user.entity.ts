@@ -56,6 +56,9 @@ export class User {
 
   @Column({ nullable: true })
   profile: string;
-  
+
+  @Column({ nullable: true })
+  refresh_token: string;
+
   ordenes: any;
 }

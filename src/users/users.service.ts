@@ -69,4 +69,12 @@ export class UsersService {
       where: { role: UserRole.ADMIN } 
     });
   }
+
+  async saveRefreshToken(userId: number, refreshToken: string) {
+    await this.userRepository.update(userId, { refresh_token: refreshToken });
+  }
+
+  async findByRefreshToken(refreshToken: string) {
+    return this.userRepository.findOne({ where: { refresh_token: refreshToken } });
+  }
 }
