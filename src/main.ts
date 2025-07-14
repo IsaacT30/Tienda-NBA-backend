@@ -15,7 +15,6 @@ async function bootstrap() {
       'http://localhost:5174',
       'http://localhost:4200',
       'https://tienda-nba-frontend.vercel.app',
-      'https://actours.com.pe'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
@@ -24,12 +23,15 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
   app.useGlobalFilters(new GlobalHttpExceptionFilter());
+  app.useStaticAssets(join(__dirname, '..', 'public'), {
+    prefix: '/imagenes',
+  });
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  
   const port = process.env.PORT || 3026;
   await app.listen(port);
+
   console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`Static files available at: http://localhost:${port}/imagenes`);
   console.log(`CORS enabled for frontend origins`);
 }
 bootstrap();
