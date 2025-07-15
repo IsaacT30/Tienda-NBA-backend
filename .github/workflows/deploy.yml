@@ -42,3 +42,5 @@ jobs:
           pm2 stop tienda_nba_app || true  # Detener el proceso si está en ejecución
           pm2 delete tienda_nba_app || true  # Eliminar el proceso si ya está activo
           pm2 start dist/src/main.js --name tienda_nba_app  # Iniciar el proceso desde el archivo compilado
+
+          
