@@ -4,9 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
-import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
-import { MailModule } from './mail/mail.module';
 import { MarcasModule } from './Marcas/marcas.module';
 import { ProductosModule } from './Productos/productos.module';
 import { ArticulosModule } from './Articulos/articulos.module';
@@ -36,9 +34,7 @@ import { PagosModule } from './pagos/pagos.modulel';
 
     UsersModule,
     CategoriesModule,
-    PostsModule,
     AuthModule,
-    MailModule,
     MarcasModule,
     ArticulosModule,
     ProductosModule,
