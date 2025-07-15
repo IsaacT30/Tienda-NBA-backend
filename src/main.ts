@@ -35,3 +35,4 @@ async function bootstrap() {
   console.log(`CORS enabled for frontend origins`);
 }
 bootstrap();
+
