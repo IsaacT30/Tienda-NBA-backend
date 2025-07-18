@@ -22,7 +22,7 @@ export class CreateProductoDto {
 
   @IsOptional()
   @IsString()
-  categoria?: string; // o el tipo que uses para la relación
+  categoria?: string;
 
   @IsOptional()
   @IsString()

@@ -4,20 +4,44 @@ import { Repository } from 'typeorm';
 import { Producto } from './productos.entity';
 import { CreateProductoDto } from './dto/create-productos.dto';
 import { UpdateProductoDto } from './dto/update-productos.dto';
+import { Category } from '../categories/category.entity';
+import { Marcas } from '../Marcas/marcas.entity';
 import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ProductosService {
-  productoRepository: any;
+  productoRepository: Repository<Producto>;
+  categoriaRepository: Repository<Category>;
+  marcaRepository: Repository<Marcas>;
+
   constructor(
     @InjectRepository(Producto)
-    productoRepository,
+    productoRepository: Repository<Producto>,
+    @InjectRepository(Category)
+    categoriaRepository: Repository<Category>,
+    @InjectRepository(Marcas)
+    marcaRepository: Repository<Marcas>,
   ) {
     this.productoRepository = productoRepository;
+    this.categoriaRepository = categoriaRepository;
+    this.marcaRepository = marcaRepository;
   }
 
-  create(createProductoDto) {
-    const producto = this.productoRepository.create(createProductoDto);
+  async create(dto: CreateProductoDto): Promise<Producto> {
+    const producto = new Producto();
+    producto.nombre = dto.nombre;
+    producto.precio = dto.precio;
+    if (dto.descripcion !== undefined) producto.descripcion = dto.descripcion;
+
+    if (dto.marca) {
+      const marca = await this.marcaRepository.findOneBy({ id: dto.marca });
+      if (marca) producto.marca = marca;
+    }
+    if (dto.categoria) {
+      const categoria = await this.categoriaRepository.findOneBy({ id: dto.categoria });
+      if (categoria) producto.categoria = categoria;
+    }
+
     return this.productoRepository.save(producto);
   }
 
