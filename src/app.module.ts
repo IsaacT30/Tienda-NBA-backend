@@ -26,7 +26,7 @@ import { PagosModule } from './pagos/pagos.modulel';
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // ⚠️ Solo para desarrollo
+      synchronize: true, 
       ssl: {
         rejectUnauthorized: false,
       },

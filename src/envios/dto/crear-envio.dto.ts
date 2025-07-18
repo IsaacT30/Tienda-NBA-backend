@@ -1,4 +1,5 @@
 import { IsString, IsDate } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CrearEnvioDto {
   @IsString()
@@ -10,6 +11,7 @@ export class CrearEnvioDto {
   @IsString()
   direccionEnvio: string;
 
+  @Type(() => Date)
   @IsDate()
   fechaEnvio: Date;
 
