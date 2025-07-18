@@ -33,10 +33,9 @@ export class ProductosController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createProductoDto: CreateProductoDto,
   ) {
-    const imagePath = file ? `/imagenes/${file.filename}` : undefined;
+    // Solo envía los datos del frontend, ignora imagen
     return this.productosService.create({
-      ...createProductoDto,
-      imagen: imagePath,
+      ...createProductoDto
     });
   }
 
