@@ -13,8 +13,12 @@ export class Producto {
   @Column('decimal', { precision: 10, scale: 2 })
   precio: number;
 
+
   @Column()
   descripcion: string;
+
+  @Column({ nullable: true })
+  imagen?: string;
 
   @ManyToOne(() => Marcas, marcas => marcas.articulos)
   marca: Marcas;
