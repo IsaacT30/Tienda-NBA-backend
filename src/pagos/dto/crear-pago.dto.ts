@@ -1,4 +1,5 @@
 import { IsString, IsNumber, IsDate } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CrearPagoDto {
   @IsString()
@@ -16,6 +17,7 @@ export class CrearPagoDto {
   @IsString()
   estado: string;
 
+  @Type(() => Date)
   @IsDate()
   fechaPago: Date;
 }
