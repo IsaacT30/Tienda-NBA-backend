@@ -33,7 +33,7 @@ export class ProductosController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createProductoDto: CreateProductoDto,
   ) {
-    const imagePath = file ? `/imagenes/${file.filename}` : null;
+    const imagePath = file ? `/imagenes/${file.filename}` : undefined;
     return this.productosService.create({
       ...createProductoDto,
       imagen: imagePath,
