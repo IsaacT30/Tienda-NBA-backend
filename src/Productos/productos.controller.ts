@@ -33,10 +33,23 @@ export class ProductosController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createProductoDto: CreateProductoDto,
   ) {
-    // Solo envía los datos del frontend, ignora imagen
-    return this.productosService.create({
-      ...createProductoDto
+    // Si se subió una imagen, guardar el nombre en el DTO
+    let imagen = createProductoDto.imagen;
+    if (file) {
+      imagen = file.filename;
+    }
+    const producto = await this.productosService.create({
+      ...createProductoDto,
+      imagen,
     });
+    // Devolver la URL completa de la imagen si existe
+    if (producto.imagen) {
+      return {
+        ...producto,
+        imagen: `${process.env.HOST_URL || ''}/public/imagenes/${producto.imagen}`,
+      };
+    }
+    return producto;
   }
 
   @Get()

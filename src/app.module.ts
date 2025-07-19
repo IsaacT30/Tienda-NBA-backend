@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
@@ -16,6 +18,10 @@ import { PagosModule } from './pagos/pagos.modulel';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/public',
+    }),
     ConfigModule.forRoot({ isGlobal: true }), // ✅ importante
     MongooseModule.forRoot(process.env.MONGO_URI || ''),
     TypeOrmModule.forRoot({
