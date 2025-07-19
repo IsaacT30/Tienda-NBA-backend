@@ -53,17 +53,45 @@ export class ProductosController {
   }
 
   @Get()
-  findAll(
+  async findAll(
     @Query('page') page = 1,
     @Query('limit') limit = 10,
   ) {
     limit = limit > 100 ? 100 : limit;
-    return this.productosService.findAll({ page, limit });
+    const result = await this.productosService.findAll({ page, limit });
+    // Si usas paginación, clona el objeto y mapea los items
+    if (result.items) {
+      return {
+        ...result,
+        items: result.items.map(producto => ({
+          ...producto,
+          imagen: producto.imagen
+            ? `${process.env.HOST_URL || 'http://localhost:3050'}/public/imagenes/${producto.imagen}`
+            : null,
+        })),
+      };
+    }
+    // Si no usas paginación, solo es un array
+    return Array.isArray(result)
+      ? result.map(producto => ({
+          ...producto,
+          imagen: producto.imagen
+            ? `${process.env.HOST_URL || 'http://localhost:3050'}/public/imagenes/${producto.imagen}`
+            : null,
+        }))
+      : result;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productosService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const producto = await this.productosService.findOne(id);
+    if (!producto) return null;
+    return {
+      ...producto,
+      imagen: producto.imagen
+        ? `${process.env.HOST_URL || 'http://localhost:3050'}/public/imagenes/${producto.imagen}`
+        : null,
+    };
   }
 
   @Put(':id')
