@@ -46,7 +46,7 @@ export class ProductosController {
     if (producto.imagen) {
       return {
         ...producto,
-        imagen: `${process.env.HOST_URL || ''}/public/imagenes/${producto.imagen}`,
+        imagen: `${process.env.HOST_URL || ''}/imagenes/${producto.imagen}`,
       };
     }
     return producto;
@@ -66,7 +66,7 @@ export class ProductosController {
         items: result.items.map(producto => ({
           ...producto,
           imagen: producto.imagen
-            ? `${process.env.HOST_URL || 'http://localhost:3050'}/public/imagenes/${producto.imagen}`
+            ? `${process.env.HOST_URL || 'http://localhost:3050'}/imagenes/${producto.imagen}`
             : null,
         })),
       };
@@ -76,7 +76,7 @@ export class ProductosController {
       ? result.map(producto => ({
           ...producto,
           imagen: producto.imagen
-            ? `${process.env.HOST_URL || 'http://localhost:3050'}/public/imagenes/${producto.imagen}`
+            ? `${process.env.HOST_URL || 'http://localhost:3050'}/imagenes/${producto.imagen}`
             : null,
         }))
       : result;
@@ -89,7 +89,7 @@ export class ProductosController {
     return {
       ...producto,
       imagen: producto.imagen
-        ? `${process.env.HOST_URL || 'http://localhost:3050'}/public/imagenes/${producto.imagen}`
+        ? `${process.env.HOST_URL || 'http://localhost:3050'}/imagenes/${producto.imagen}`
         : null,
     };
   }
