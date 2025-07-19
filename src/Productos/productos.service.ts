@@ -46,12 +46,17 @@ export class ProductosService {
   }
 
   async findAll(options) {
-    const queryBuilder = this.productoRepository.createQueryBuilder('producto');
+    const queryBuilder = this.productoRepository.createQueryBuilder('producto')
+      .leftJoinAndSelect('producto.categoria', 'categoria')
+      .leftJoinAndSelect('producto.marca', 'marca');
     return paginate(queryBuilder, options);
   }
 
-  findOne(id) {
-    return this.productoRepository.findOne({ where: { id } });
+  async findOne(id) {
+    return this.productoRepository.findOne({
+      where: { id },
+      relations: ['categoria', 'marca'],
+    });
   }
 
   async update(id, updateProductoDto) {
