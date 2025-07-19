@@ -7,6 +7,12 @@ import { SuccessResponseDto } from 'src/common/dto/response.dto';
 export class PagosController {
   constructor(private readonly service: PagosService) {}
 
+  @Get()
+  async obtenerTodos() {
+    const pagos = await this.service.obtenerTodos();
+    return new SuccessResponseDto('Pagos encontrados', pagos);
+  }
+
   @Post()
   async crear(@Body() dto: CrearPagoDto) {
     const pago = await this.service.crear(dto);

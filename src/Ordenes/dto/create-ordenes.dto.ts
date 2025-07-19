@@ -16,7 +16,7 @@ export class CreateOrdenDto {
   metodoPago: string;
 
   @IsNumber()
-  subtotal: number;  // ¡Este campo falta!
+  subtotal: number;
 
   @IsNumber()
   total: number;

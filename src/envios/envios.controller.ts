@@ -7,6 +7,12 @@ import { SuccessResponseDto } from 'src/common/dto/response.dto';
 export class EnviosController {
   constructor(private readonly service: EnviosService) {}
 
+  @Get()
+  async obtenerTodos() {
+    const envios = await this.service.obtenerTodos();
+    return new SuccessResponseDto('Envíos encontrados', envios);
+  }
+
   @Post()
   async crear(@Body() dto: CrearEnvioDto) {
     const envio = await this.service.crear(dto);

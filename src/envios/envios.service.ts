@@ -10,6 +10,15 @@ export class EnviosService {
     @InjectModel(Envio.name) private readonly envioModel: Model<Envio>,
   ) {}
 
+  async obtenerTodos(): Promise<Envio[]> {
+    try {
+      return await this.envioModel.find().exec();
+    } catch (err) {
+      console.error('Error al obtener todos los envíos:', err);
+      return [];
+    }
+  }
+
   async crear(dto: CrearEnvioDto): Promise<Envio | null> {
     try {
       const envio = new this.envioModel(dto);
