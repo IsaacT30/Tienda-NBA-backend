@@ -3,6 +3,11 @@ import { UserRole } from '../enums/user-role.enum';
 
 export class UpdateUserDto {
   @IsOptional()
+  first_name?: string;
+
+  @IsOptional()
+  last_name?: string;
+  @IsOptional()
   username?: string;
 
   @IsOptional()
