@@ -56,33 +56,17 @@ export class ProductosController {
   }
 
   @Get()
-  async findAll(
-    @Query('page') page = 1,
-    @Query('limit') limit = 10,
-    @Req() req: Request,
-  ) {
-    limit = limit > 100 ? 100 : limit;
-    const result = await this.productosService.findAll({ page, limit });
+  async findAll(@Req() req: Request, @Query('page') page = 1, @Query('limit') limit = 10) {
+    const options = { page: Number(page), limit: Number(limit), route: req.protocol + '://' + req.get('host') + req.baseUrl };
+    const result = await this.productosService.findAll(options);
     const host = req.protocol + '://' + req.get('host');
-    if (result.items) {
-      return {
-        ...result,
-        items: result.items.map(producto => ({
-          ...producto,
-          imagen: producto.imagen
-            ? `${host}/imagenes/${producto.imagen}`
-            : null,
-        })),
-      };
-    }
-    return Array.isArray(result)
-      ? result.map(producto => ({
-          ...producto,
-          imagen: producto.imagen
-            ? `${host}/imagenes/${producto.imagen}`
-            : null,
-        }))
-      : result;
+    return {
+      ...result,
+      items: result.items.map(producto => ({
+        ...producto,
+        imagen: producto.imagen ? `${host}/imagenes/${producto.imagen}` : undefined,
+      })),
+    };
   }
 
   @Get(':id')
@@ -92,9 +76,7 @@ export class ProductosController {
     const host = req.protocol + '://' + req.get('host');
     return {
       ...producto,
-      imagen: producto.imagen
-        ? `${host}/imagenes/${producto.imagen}`
-        : null,
+      imagen: producto.imagen ? `${host}/imagenes/${producto.imagen}` : undefined,
     };
   }
 

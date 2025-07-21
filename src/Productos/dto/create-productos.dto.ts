@@ -29,5 +29,5 @@ export class CreateProductoDto {
 
   @IsOptional()
   @IsString()
-  marca?: string; // o el tipo que uses para la relación
+  marca?: string;
 }
