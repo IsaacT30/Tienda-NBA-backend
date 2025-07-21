@@ -42,6 +42,6 @@ jobs:
           npm run build
           
           # Reiniciar PM2 con el nuevo código
-          pm2 stop nestjs-blog-backend-api || true  # Detener el proceso si está en ejecución
-          pm2 delete nestjs-blog-backend-api || true  # Eliminar el proceso si ya está activo
-          pm2 start dist/main.js --name nestjs-blog-backend-api  # Iniciar el proceso desde el archivo compilado
+          pm2 stop nestjs-nba-backend-api || true  # Detener el proceso si está en ejecución
+          pm2 delete nestjs-nba-backend-api || true  # Eliminar el proceso si ya está activo
+          pm2 start dist/main.js --name nestjs-nba-backend-api  # Iniciar el proceso desde el archivo compilado
