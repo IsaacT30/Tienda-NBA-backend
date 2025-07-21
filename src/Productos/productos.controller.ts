@@ -57,15 +57,7 @@ export class ProductosController {
   @Get()
   async findAll(@Req() req: Request, @Query('page') page = 1, @Query('limit') limit = 10) {
     const options = { page: Number(page), limit: Number(limit), route: req.protocol + '://' + req.get('host') + req.baseUrl };
-    const result = await this.productosService.findAll(options);
-    const host = req.protocol + '://' + req.get('host');
-    return {
-      ...result,
-      items: result.items.map(producto => ({
-        ...producto,
-        imagen: producto.imagen ? `${host}/imagenes/${producto.imagen}` : undefined,
-      })),
-    };
+    return await this.productosService.findAll(options);
   }
 
   @Get(':id')
