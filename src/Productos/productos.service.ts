@@ -32,6 +32,7 @@ export class ProductosService {
     producto.nombre = dto.nombre;
     producto.precio = dto.precio;
     if (dto.descripcion !== undefined) producto.descripcion = dto.descripcion;
+    if (dto.imagen !== undefined) producto.imagen = dto.imagen;
 
     if (dto.marca) {
       const marca = await this.marcaRepository.findOneBy({ id: dto.marca });
