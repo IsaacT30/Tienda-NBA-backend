@@ -35,6 +35,8 @@ export class ProductosController {
     @Body() createProductoDto: CreateProductoDto,
     @Req() req: Request,
   ) {
+    // Log para debug de subida de archivos
+    console.log('Archivo recibido:', file);
     // Si se subió una imagen, guardar el nombre en el DTO
     let imagen = createProductoDto.imagen;
     if (file) {
