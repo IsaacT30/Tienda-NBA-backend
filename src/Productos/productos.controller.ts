@@ -31,21 +31,18 @@ export class ProductosController {
     }),
   )
   async create(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() imagen: Express.Multer.File,
     @Body() createProductoDto: CreateProductoDto,
     @Req() req: Request,
   ) {
     // Log para debug de subida de archivos
-    console.log('Archivo recibido:', file);
+    console.log('Archivo recibido:', imagen);
     // Si se subió una imagen, guardar el nombre en el DTO
-    let imagen = createProductoDto.imagen;
-    if (file) {
-      imagen = file.filename;
+    
+    if (imagen) {
+      createProductoDto.imagen = imagen.filename;
     }
-    const producto = await this.productosService.create({
-      ...createProductoDto,
-      imagen,
-    });
+    const producto = await this.productosService.create(createProductoDto);
     // Devolver la URL completa de la imagen si existe
     if (producto.imagen) {
       const host = req.protocol + '://' + req.get('host');
