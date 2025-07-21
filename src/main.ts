@@ -23,7 +23,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
   app.useGlobalFilters(new GlobalHttpExceptionFilter());
-  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.useStaticAssets(join(__dirname, '..', 'public'), {
+  prefix: '/imagenes/',
+});
 
   const port = process.env.PORT || 3050;
   await app.listen(port);
