@@ -1,8 +1,9 @@
-import { Controller,Get,Post,Put,Delete,Body,Param,Query,UseGuards,UploadedFile,UseInterceptors} from '@nestjs/common';
+import { Controller,Get,Post,Put,Delete,Body,Param,Query,UseGuards,UploadedFile,UseInterceptors, Req } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { ProductosService } from './productos.service';
+import { Request } from 'express';
 import { CreateProductoDto } from './dto/create-productos.dto';
 import { UpdateProductoDto } from './dto/update-productos.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -32,6 +33,7 @@ export class ProductosController {
   async create(
     @UploadedFile() file: Express.Multer.File,
     @Body() createProductoDto: CreateProductoDto,
+    @Req() req: Request,
   ) {
     // Si se subió una imagen, guardar el nombre en el DTO
     let imagen = createProductoDto.imagen;
@@ -44,9 +46,10 @@ export class ProductosController {
     });
     // Devolver la URL completa de la imagen si existe
     if (producto.imagen) {
+      const host = req.protocol + '://' + req.get('host');
       return {
         ...producto,
-        imagen: `${process.env.HOST_URL || ''}/imagenes/${producto.imagen}`,
+        imagen: `${host}/imagenes/${producto.imagen}`,
       };
     }
     return producto;
@@ -56,40 +59,41 @@ export class ProductosController {
   async findAll(
     @Query('page') page = 1,
     @Query('limit') limit = 10,
+    @Req() req: Request,
   ) {
     limit = limit > 100 ? 100 : limit;
     const result = await this.productosService.findAll({ page, limit });
-    // Si usas paginación, clona el objeto y mapea los items
+    const host = req.protocol + '://' + req.get('host');
     if (result.items) {
       return {
         ...result,
         items: result.items.map(producto => ({
           ...producto,
           imagen: producto.imagen
-            ? `${process.env.HOST_URL || 'http://localhost:3050'}/imagenes/${producto.imagen}`
+            ? `${host}/imagenes/${producto.imagen}`
             : null,
         })),
       };
     }
-    // Si no usas paginación, solo es un array
     return Array.isArray(result)
       ? result.map(producto => ({
           ...producto,
           imagen: producto.imagen
-            ? `${process.env.HOST_URL || 'http://localhost:3050'}/imagenes/${producto.imagen}`
+            ? `${host}/imagenes/${producto.imagen}`
             : null,
         }))
       : result;
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string, @Req() req: Request) {
     const producto = await this.productosService.findOne(id);
     if (!producto) return null;
+    const host = req.protocol + '://' + req.get('host');
     return {
       ...producto,
       imagen: producto.imagen
-        ? `${process.env.HOST_URL || 'http://localhost:3050'}/imagenes/${producto.imagen}`
+        ? `${host}/imagenes/${producto.imagen}`
         : null,
     };
   }
