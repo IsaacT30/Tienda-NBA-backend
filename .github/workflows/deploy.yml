@@ -49,4 +49,3 @@ jobs:
             # Asegúrate que esta ruta sea la correcta para tu main.js compilado
             pm2 start dist/main.js --name tienda_nba_app
             
-            pm2 save
